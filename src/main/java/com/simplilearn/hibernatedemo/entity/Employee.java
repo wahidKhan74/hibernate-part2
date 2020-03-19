@@ -1,10 +1,13 @@
 package com.simplilearn.hibernatedemo.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,7 +16,7 @@ public class Employee {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="empid")
+	@Column(name="emp_id")
 	private int id;
 	
 	@Column(name="first_name")
@@ -28,6 +31,10 @@ public class Employee {
 	@Column(name="dept")
 	private String dept;
 	
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="emp_id")
+	private Payroll payroll;
+	
 	// add empty constructor
 	Employee(){};
 	
@@ -39,7 +46,8 @@ public class Employee {
 		this.salary = salary;
 		this.dept = dept;
 	}
-
+	
+	//getter and setter 
 	public int getId() {
 		return id;
 	}
@@ -80,12 +88,21 @@ public class Employee {
 		this.dept = dept;
 	}
 	
-	// toString()
+	public Payroll getPayroll() {
+		return payroll;
+	}
+
+	public void setPayroll(Payroll payroll) {
+		this.payroll = payroll;
+	}
+
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", salary=" + salary
-				+ ", dept=" + dept + "]";
-	};
+				+ ", dept=" + dept + ", payroll=" + payroll + "]";
+	}
+
+	
 	
 	
 }

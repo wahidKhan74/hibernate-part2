@@ -7,13 +7,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.simplilearn.hibernatedemo.entity.Employee;
+import com.simplilearn.hibernatedemo.entity.Payroll;
 
 
 /**
  * Hello world!
  *
  */
-public class App 
+public class ReadAllEmployee 
 {
     public static void main( String[] args )
     {
@@ -21,6 +22,7 @@ public class App
     			SessionFactory factory = new Configuration()
     									.configure("hibernate.cfg.xml")
     									.addAnnotatedClass(Employee.class)
+    									.addAnnotatedClass(Payroll.class)
     									.buildSessionFactory();
     			
     			//2.create a session (open a session)
@@ -28,9 +30,17 @@ public class App
     			
     			// 3. perform operations
     			try {
-    							
-    				//start transaction
+    				
+//    				Employee employee = new Employee("Will", "Smith", 2000, "Dev");
+//    				Payroll payroll = new Payroll("1000$", "$1000", "$1800", "$200");
+//    				employee.setPayroll(payroll);
+//    				//start transaction
     				session.beginTransaction();
+//    				session.save(employee);
+//    				session.getTransaction().commit();
+    				
+    				
+    				System.out.print("Done !");
     				
     				List <Employee>listOfEmp = session.createQuery("from Employee as e").getResultList();
     				
