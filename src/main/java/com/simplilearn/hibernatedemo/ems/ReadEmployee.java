@@ -16,7 +16,7 @@ import com.simplilearn.hibernatedemo.entity.Project;
  * Hello world!
  *
  */
-public class ReadAllEmployee 
+public class ReadEmployee 
 {
     public static void main( String[] args )
     {
@@ -33,21 +33,18 @@ public class ReadAllEmployee
     			
     			// 3. perform operations
     			try {
-    				
-//    				Employee employee = new Employee("Will", "Smith", 2000, "Dev");
-//    				Payroll payroll = new Payroll("1000$", "$1000", "$1800", "$200");
-//    				employee.setPayroll(payroll);
-//    				//start transaction
     				session.beginTransaction();
-//    				session.save(employee);
-//    				session.getTransaction().commit();
+    				int theId = 6;
+    				Employee employee = 
+    						session.get(Employee.class, theId);
     				
+    				System.out.println("Employee: " + employee);
+    				
+    				System.out.println("Employee Project List : " + employee.getProjects());
     				
     				System.out.print("Done !");
     				
-    				List <Employee>listOfEmp = session.createQuery("from Employee as e").getResultList();
     				
-    				display(listOfEmp);
     				
     			}catch (Exception e) {
     				e.printStackTrace();
@@ -56,10 +53,5 @@ public class ReadAllEmployee
     				factory.close();
     			}
     }
- // display
- 	private static void display(List <Employee> listOfEmp) {		
- 		for(Employee emp : listOfEmp) {			
- 			System.out.println(emp);			
- 		}
- 	}
+ 
 }

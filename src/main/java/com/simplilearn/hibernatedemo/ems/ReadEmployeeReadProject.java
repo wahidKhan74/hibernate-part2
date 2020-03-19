@@ -1,6 +1,6 @@
 package com.simplilearn.hibernatedemo.ems;
 
-import java.security.KeyStore.PasswordProtection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -16,7 +16,7 @@ import com.simplilearn.hibernatedemo.entity.Project;
  * Hello world!
  *
  */
-public class ReadAllEmployee 
+public class ReadEmployeeReadProject 
 {
     public static void main( String[] args )
     {
@@ -33,33 +33,40 @@ public class ReadAllEmployee
     			
     			// 3. perform operations
     			try {
-    				
-//    				Employee employee = new Employee("Will", "Smith", 2000, "Dev");
-//    				Payroll payroll = new Payroll("1000$", "$1000", "$1800", "$200");
-//    				employee.setPayroll(payroll);
-//    				//start transaction
     				session.beginTransaction();
+    				
+    				int theId = 6;
+    				Employee employee = 
+    						session.get(Employee.class, theId);
+    				
+//    				System.out.println("Payroll Employee: " + employee);
+    				
+    				Project pro3 = new Project("A123","Online EMS");
+    				Project pro4 = new Project("A124","Online Flight Booking");
+    				
+    				employee.add(pro3);
+    				employee.add(pro4);
+    				
+    				
+    				
+    				session.save(pro3);
+    				session.save(pro4);
+    				
 //    				session.save(employee);
-//    				session.getTransaction().commit();
+    				session.getTransaction().commit();
     				
     				
     				System.out.print("Done !");
     				
-    				List <Employee>listOfEmp = session.createQuery("from Employee as e").getResultList();
     				
-    				display(listOfEmp);
     				
     			}catch (Exception e) {
     				e.printStackTrace();
     			}
     			finally {
+    				session.close();
     				factory.close();
     			}
     }
- // display
- 	private static void display(List <Employee> listOfEmp) {		
- 		for(Employee emp : listOfEmp) {			
- 			System.out.println(emp);			
- 		}
- 	}
+ 
 }

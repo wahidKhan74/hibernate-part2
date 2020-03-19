@@ -1,6 +1,5 @@
 package com.simplilearn.hibernatedemo.ems;
 
-import java.security.KeyStore.PasswordProtection;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -16,7 +15,7 @@ import com.simplilearn.hibernatedemo.entity.Project;
  * Hello world!
  *
  */
-public class ReadAllEmployee 
+public class DeleteProject 
 {
     public static void main( String[] args )
     {
@@ -33,21 +32,32 @@ public class ReadAllEmployee
     			
     			// 3. perform operations
     			try {
-    				
-//    				Employee employee = new Employee("Will", "Smith", 2000, "Dev");
-//    				Payroll payroll = new Payroll("1000$", "$1000", "$1800", "$200");
-//    				employee.setPayroll(payroll);
-//    				//start transaction
+    				// start a transaction
     				session.beginTransaction();
-//    				session.save(employee);
-//    				session.getTransaction().commit();
+    				
+    				int theId = 1;
+    				Project project = 
+    						session.get(Project.class, theId);
+    				
+    				System.out.println("Found Project: " + project);
+    				
+    				// delete the instructors
+    				if (project != null) {
+    				
+    					System.out.println("Deleting: " + project);
+    					
+    					// Note: will ALSO delete associated "details" object
+    					// because of CascadeType.ALL
+    					//
+    					session.delete(project);				
+    				}
+    			
+    				session.getTransaction().commit();
     				
     				
     				System.out.print("Done !");
     				
-    				List <Employee>listOfEmp = session.createQuery("from Employee as e").getResultList();
     				
-    				display(listOfEmp);
     				
     			}catch (Exception e) {
     				e.printStackTrace();
@@ -56,10 +66,5 @@ public class ReadAllEmployee
     				factory.close();
     			}
     }
- // display
- 	private static void display(List <Employee> listOfEmp) {		
- 		for(Employee emp : listOfEmp) {			
- 			System.out.println(emp);			
- 		}
- 	}
+ 
 }
