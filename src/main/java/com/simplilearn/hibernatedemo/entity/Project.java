@@ -1,12 +1,18 @@
 package com.simplilearn.hibernatedemo.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -25,10 +31,13 @@ public class Project {
 	@Column(name="project_title")
 	private String projectTiltle;
 	
-	@ManyToOne(cascade= {CascadeType.DETACH,CascadeType.PERSIST,
+	@ManyToMany(fetch=FetchType.LAZY.EAGER,cascade= {CascadeType.DETACH,CascadeType.PERSIST,
 			CascadeType.MERGE,CascadeType.REFRESH})
-	@JoinColumn(name="emp_id")
-	private Employee employee;
+	@JoinTable(
+			name="employee_project",
+			joinColumns=@JoinColumn(name="project_id"),
+			inverseJoinColumns=@JoinColumn(name="emp_id"))
+	private List<Employee> employees;
 	
 	//constructor
 	public Project() {	}
@@ -64,18 +73,29 @@ public class Project {
 		this.projectTiltle = projectTiltle;
 	}
 
-	public Employee getEmployee() {
-		return employee;
+	
+	
+	public List<Employee> getEmployee() {
+		return employees;
 	}
 
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
+	public void setEmployee(List<Employee> employees) {
+		this.employees = employees;
 	}
-	
+
 	//override toString()
 	@Override
 	public String toString() {
 		return "Project [id=" + id + ", projectNo=" + projectNo + ", projectTiltle=" + projectTiltle + "]";
 	}
+	
+	//add convenience method for bi-directional relationship
+		public void add (Employee employee) {
+			if(employees == null) {
+				employees = new ArrayList<>();
+			}
+			employees.add(employee);
+		;
+		}
 	
 }

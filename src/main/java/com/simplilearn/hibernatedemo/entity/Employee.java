@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -40,12 +42,12 @@ public class Employee {
 	@JoinColumn(name="emp_id")
 	private Payroll payroll;
 	
-//	@OneToMany(fetch=FetchType.EAGER,mappedBy="employee",cascade= {CascadeType.DETACH,CascadeType.PERSIST,
-//			CascadeType.MERGE,CascadeType.REFRESH})
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="employee",cascade= {CascadeType.DETACH,CascadeType.PERSIST,
-	CascadeType.MERGE,CascadeType.REFRESH})
-//	@OneToMany(mappedBy="employee",cascade= {CascadeType.DETACH,CascadeType.PERSIST,
-//			CascadeType.MERGE,CascadeType.REFRESH})
+	@ManyToMany(fetch=FetchType.LAZY.EAGER,cascade= {CascadeType.DETACH,CascadeType.PERSIST,
+			CascadeType.MERGE,CascadeType.REFRESH})
+	@JoinTable(
+			name="employee_project",
+			joinColumns=@JoinColumn(name="emp_id"),
+			inverseJoinColumns=@JoinColumn(name="project_id"))
 	private List<Project> projects;
 	
 	
@@ -130,8 +132,6 @@ public class Employee {
 			projects = new ArrayList<>();
 		}
 		projects.add(project);
-		
-		project.setEmployee(this);
 	}
 	
 	

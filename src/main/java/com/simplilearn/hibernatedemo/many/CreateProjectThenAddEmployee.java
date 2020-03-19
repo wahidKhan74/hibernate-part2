@@ -1,4 +1,4 @@
-package com.simplilearn.hibernatedemo.ems;
+package com.simplilearn.hibernatedemo.many;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.simplilearn.hibernatedemo.entity.Project;
  * Hello world!
  *
  */
-public class CreateEmployeeWithProject 
+public class CreateProjectThenAddEmployee 
 {
     public static void main( String[] args )
     {
@@ -33,25 +33,27 @@ public class CreateEmployeeWithProject
     			
     			// 3. perform operations
     			try {
-    				
     				//start transaction
     				session.beginTransaction();
     				
-    				Employee employee = new Employee("Rohn", "Smith", 2000, "Dev");				
-    				Payroll payroll = new Payroll("1000$", "$1000", "$1800", "$200");
-    				employee.setPayroll(payroll);
-    				session.save(employee);
-    			
-    				Project pro1 = new Project("A121","Wood Working Around the House");
-    				Project pro2 = new Project("A122","Basic Home Electronics");
-    				    				
-    				employee.add(pro1);
-    				employee.add(pro2);			
+    				
+    				
+    				Project pro1 = new Project("A122","Basic Home Electronics");
     				
     				session.save(pro1);
-    				session.save(pro2);
     				
+    				System.out.println("Project : "+pro1);
     				
+    				Employee employee1 = new Employee("Miki", "Smith", 2000, "Dev");
+    				Employee employee2 = new Employee("Sami", "Smith", 2000, "Dev");
+    				
+    				pro1.add(employee1);
+    				pro1.add(employee2);
+    				
+    				session.save(employee1);
+    				session.save(employee2);
+    				    				
+    				System.out.println("Saved Employee"+pro1.getEmployee());
     				session.getTransaction().commit();
     				
     				
